@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<style>
+table, th , td  {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #dddddd;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+</style>
+
+<script src="angular.min.js"></script>
+<script src="functions.js"></script>
+
+<body>
+
+<div ng-app="expenseApp" ng-controller="expensesController"> 
+
+<table>
+   <tr>
+      <!--<th>ID</th>-->
+      <th>Description</th>
+	  <th>Value</th>
+	  <th>Date</th>
+   </tr>
+   
+  <tr ng-repeat="expense in expenseList">
+	<!--<td>{{ expense.id }}</td>-->
+    <td>{{ expense.description }}</td>
+	<td>{{ expense.value }}</td>
+	<td>{{ expense.date | date:'dd-MM-yyyy HH:mm' }}</td>
+	<td><button ng-click="edit(expense)">EDIT</button> </td>
+	<td><button ng-click="delete(expense)">DELETE</button> </td>
+  </tr>
+</table>
+<br>
+<br>
+ <form name="expenseForm" ng-submit="validate(expenseForm.$valid, expense)" novalidate>
+ 
+    Description:<br>
+    <input type="text" name="description" ng-model="expense.description" required><br>
+    Value:<br>
+    <input type="number" name="value" ng-model="expense.value" ng-pattern="/^\d+([.,]\d{1,2})?$/" required placeholder="0,00"><br>
+	Date:<br>
+    <input type="datetime-local" name="date" ng-model="expense.date" min="01-01-1970T00:00:00" max="31-12-2036T00:00:00"><br>
+    
+	<br>
+    <button ng-click="submit">{{action}}</button>
+	<button ng-click="reset()">Cancel</button>
+  </form>
+
+</div>
+
+</body>
+</html>
